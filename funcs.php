@@ -1,5 +1,4 @@
 <?php
-
     //Output values
     function createResponse($status, $message, $data = []) {
       $response = [

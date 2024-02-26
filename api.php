@@ -4,10 +4,9 @@
     require_once './db.php';
     require_once './jwt.php';
     require_once './funcs.php';
+    require_once './sql.php';
 
-    //Processing API requests
     if($_SERVER['REQUEST_METHOD'] == 'POST') {     
-        //Check and process entered data
         $data = json_decode(file_get_contents('php://input'), true);
         if($data) {
             $email = isset($data['email']) ? $data['email'] : '';
@@ -21,16 +20,13 @@
             $email_hash = base64_encode($data['email']);
             $password = $data['password'];
         
-            $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
-            $query = $connection->prepare($sql);
-            $query->execute();
-            $row = $query->fetch(PDO::FETCH_ASSOC);
+            $user = getUserByEmail($email_hash);
             
-            $password_hash = $row['password'];
+            $password_hash = $user['password'];
 
             if(password_verify($password, $password_hash)) {
                 $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
-                $payload = ['user' => $row['username']];
+                $payload = ['user' => $user['username']];
                 $jwt = generate_jwt($headers, $payload);
 
                 echo createResponse('success', 'Logged in successfully.', ['token' => $jwt]);
@@ -51,18 +47,7 @@
         if ($is_jwt_valid) {
             $username = getPayload($bearer_token);
 
-            $sql = "SELECT * FROM requests WHERE username = '$username'";
-            $query = $connection->prepare($sql);
-            $query->execute();
-            $row = $query->fetch(PDO::FETCH_ASSOC);
-
-            $user = Array(
-                'email' => $row->email,
-                'username' => $row->username,
-            );
-
-            var_dump($user);
-            die();
+            $user = getUserByUsername($username);
             if ($user) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
             }
