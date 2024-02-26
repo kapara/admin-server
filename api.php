@@ -4,18 +4,18 @@
     require_once './jwt.php';
     require_once './funcs.php';
 
+    if(!checkRequestLimit($_SERVER['REMOTE_ADDR'])) {
+        echo createResponse('error', 'Too many requests! Try again later.', []);
+        exit;
+    }
+
+    if(!checkRequestTime($_SERVER['REMOTE_ADDR'])) {
+        echo createResponse('error', 'Request too common! Try again later.', []);
+        exit;
+    }
+
     //Processing API requests
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(!checkRequestLimit($_SERVER['REMOTE_ADDR'])) {
-            echo createResponse('error', 'Too many requests! Try again later.', []);
-            exit;
-        }
-
-        if(!checkRequestTime($_SERVER['REMOTE_ADDR'])) {
-            echo createResponse('error', 'Request too common! Try again later.', []);
-            exit;
-        }
-
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {     
         //Check and process entered data
         $data = json_decode(file_get_contents('php://input'), true);
         if($data) {
@@ -58,16 +58,6 @@
     } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
         $bearer_token = get_bearer_token();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
-
-        if(!checkRequestLimit($_SERVER['REMOTE_ADDR'])) {
-            echo createResponse('error', 'Too many requests! Try again later.', []);
-            exit;
-        }
-
-        if(!checkRequestTime($_SERVER['REMOTE_ADDR'])) {
-            echo createResponse('error', 'Request too common! Try again later.', []);
-            exit;
-        }
 
         //Check and process entered data
         $data = json_decode(file_get_contents('php://input'), true);
