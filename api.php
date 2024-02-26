@@ -48,9 +48,9 @@
         $bearer_token = get_bearer_token();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
 
-        echo createResponse('debug', 'check ->', ['obj' => $bearer_token]);
         if ($is_jwt_valid) {
             $email = getPayload($bearer_token);
+            echo createResponse('debug', 'check ->', ['obj' => $email]);
 
             $sql = "SELECT * FROM requests WHERE username = '$email'";
             $query = $connection->prepare($sql);
