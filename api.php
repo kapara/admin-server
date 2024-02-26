@@ -47,6 +47,8 @@
         if ($is_jwt_valid) {
             $username = getPayload($bearer_token);
 
+            echo createResponse('debug', 'response', ['username' => $username]);
+
             $user = getUserByUsername($username);
             if ($user) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
