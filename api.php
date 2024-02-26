@@ -49,7 +49,7 @@
 
             // echo createResponse('debug', 'response', ['username' => $username]);
 
-            $user = getUserByUsername($username["user"]);
+            $user = getUserByUsername($username->user);
             if ($user) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
             }
