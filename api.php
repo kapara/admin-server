@@ -52,30 +52,27 @@
         } 
         
         else {
-            echo createResponse('error', 'Wrong request.', []);
+            echo createResponse('error', 'Wrong POST request.', []);
             exit;
         }
     } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
         $bearer_token = get_bearer_token();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
 
-        //Check and process entered data
-        $data = json_decode(file_get_contents('php://input'), true);
-        if($data) {
-            if ($is_jwt_valid) {
-                $username = getPayload($bearer_token)->user->username;
 
-                $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
-                $query = $connection->prepare($sql);
-                $query->execute();
-                $row = $query->fetch(PDO::FETCH_ASSOC);
+        if ($is_jwt_valid) {
+            $username = getPayload($bearer_token)->user->username;
 
-                if ($user = $database->getUserByUsernameOrEmail($username)) {
-                    echo createResponse('success', 'Logged in successfully.', ['user' => $row[$user['username']]]);
-                }
+            $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
+            $query = $connection->prepare($sql);
+            $query->execute();
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+
+            if ($user = $database->getUserByUsernameOrEmail($username)) {
+                echo createResponse('success', 'Logged in successfully.', ['user' => $row[$user['username']]]);
             }
         } else {
-            echo createResponse('error', 'Wrong request.', []);
+            echo createResponse('error', 'Wrong GET request.', []);
             exit;
         }
     }
