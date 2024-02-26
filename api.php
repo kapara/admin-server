@@ -54,11 +54,11 @@
             $sql = "SELECT * FROM requests WHERE username = '$username'";
             $query = $connection->prepare($sql);
             $query->execute();
-            $row = $query->fetch(PDO::FETCH_ASSOC);
+            $user = $query->fetch(PDO::FETCH_ASSOC);
 
-            echo createResponse('debug', 'response', ['user' => $row]);
+            // echo createResponse('debug', 'response', ['user' => $user]);
 
-            if ($user = $database->getUserByUsernameOrEmail($row['username'])) {
+            if ($user['username']) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
             }
         } else {
