@@ -128,5 +128,35 @@
             echo createResponse('error', 'Wrong request.', []);
             exit;
         }
+    } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if(!checkRequestLimit($_SERVER['REMOTE_ADDR'])) {
+            echo createResponse('error', 'Too many requests! Try again later.', []);
+            exit;
+        }
+
+        if(!checkRequestTime($_SERVER['REMOTE_ADDR'])) {
+            echo createResponse('error', 'Request too common! Try again later.', []);
+            exit;
+        }
+
+        //Check and process entered data
+        $data = json_decode(file_get_contents('php://input'), true);
+        if($data) {
+            if ($is_jwt_valid) {
+                $username = getPayload($bearer_token)->user->username;
+
+                $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
+                $query = $connection->prepare($sql);
+                $query->execute();
+                $row = $query->fetch(PDO::FETCH_ASSOC);
+
+                if ($user = $database->getUserByUsernameOrEmail($username)) {
+                    echo createResponse('success', 'Logged in successfully.', ['user' => $row[$user['username']]]);
+                }
+            }
+        } else {
+            echo createResponse('error', 'Wrong request.', []);
+            exit;
+        }
     }
 ?>
