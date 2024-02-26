@@ -30,7 +30,7 @@
 
             if(password_verify($password, $password_hash)) {
                 $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
-                $payload = ['user' => $user];
+                $payload = ['user' => $row['username']];
                 $jwt = generate_jwt($headers, $payload);
 
                 echo createResponse('success', 'Logged in successfully.', ['token' => $jwt]);
@@ -57,8 +57,8 @@
             $query->execute();
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($user = $database->getUserByUsernameOrEmail($username)) {
-                echo createResponse('success', 'Logged in successfully.', ['user' => $row[$user['username']]]);
+            if ($user = $database->getUserByUsernameOrEmail($row['username'])) {
+                echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
             }
         } else {
             echo createResponse('error', 'Wrong GET request.', []);
