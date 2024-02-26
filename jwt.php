@@ -14,13 +14,13 @@
   }
 
   function getSigniture($token){
-      $_token=explode(".",$token);
+      $_token = explode(".",$token);
       return $_token[2];
   }
 
   function getPayload($token){
-      $_token=explode(".",$token);
-      $payload=json_decode(base64UrlDecode($_token[1]));
+      $_token = explode(".",$token);
+      $payload = json_decode(base64UrlDecode($_token[1]));
       return $payload;
   }
 
