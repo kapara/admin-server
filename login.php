@@ -110,7 +110,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         $password_hash = $row['password'];
 
-        if(password_verify($password, '$2y$10$/JvoQshgONRoUt7G0upQYOqGtMS8VAfFA0Aw8BvzDIXd1whmIn48W')) {
+        if(password_verify($password, $password_hash)) {
             session_start();
             $_SESSION['username'] = $row['username'];
             $username = $_SESSION['username'];
@@ -118,7 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         else {
-            echo createResponse('error', "Incorrect login information.", []);
+            echo createResponse('error', "Incorrect login information.", ['res' => $row]);
             exit;
         }
     } 
