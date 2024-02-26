@@ -119,7 +119,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         else {
             // echo createResponse('error', "Incorrect login information.", []);
-            echo createResponse('pass', '', $password_hash);
+            echo createResponse('pass', json_decode($password_hash));
             exit;
         }
     } 
