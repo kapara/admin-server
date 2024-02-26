@@ -5,13 +5,8 @@
     $query = $connection->prepare($sql);
     $query->execute();
     $row = $query->fetch(PDO::FETCH_ASSOC);
-
-    $user = Array(
-        'email' => $row["email"],
-        'username' => $row["username"],
-    );
-    
-    return $user;
+        
+    return $row["username"];
   }
 
   function getUserByEmail($email_hash) {
