@@ -49,13 +49,14 @@
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
 
         if ($is_jwt_valid) {
-            $email = getPayload($bearer_token);
-            echo createResponse('debug', 'check ->', ['obj' => $email]);
+            $username = getPayload($bearer_token);
 
-            $sql = "SELECT * FROM requests WHERE username = '$email'";
+            $sql = "SELECT * FROM requests WHERE username = '$username'";
             $query = $connection->prepare($sql);
             $query->execute();
             $row = $query->fetch(PDO::FETCH_ASSOC);
+
+            echo createResponse('debug', 'response', ['user' => $row]);
 
             if ($user = $database->getUserByUsernameOrEmail($row['username'])) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
