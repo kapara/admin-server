@@ -50,9 +50,8 @@
 
         if ($is_jwt_valid) {
             $email = getPayload($bearer_token);
-            $email_hash = base64_encode($email);
 
-            $sql = "SELECT * FROM requests WHERE username = '$email_hash'";
+            $sql = "SELECT * FROM requests WHERE username = '$email'";
             $query = $connection->prepare($sql);
             $query->execute();
             $row = $query->fetch(PDO::FETCH_ASSOC);
