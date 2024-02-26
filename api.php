@@ -5,16 +5,6 @@
     require_once './jwt.php';
     require_once './funcs.php';
 
-    if(!checkRequestLimit($_SERVER['REMOTE_ADDR'])) {
-        echo createResponse('error', 'Too many requests! Try again later.', []);
-        exit;
-    }
-
-    if(!checkRequestTime($_SERVER['REMOTE_ADDR'])) {
-        echo createResponse('error', 'Request too common! Try again later.', []);
-        exit;
-    }
-
     //Processing API requests
     if($_SERVER['REQUEST_METHOD'] == 'POST') {     
         //Check and process entered data
@@ -28,7 +18,7 @@
                 exit;
             }
 
-            $email_hash = base64_encode($data['email']);
+            $email_hash = xorEncrypt($data['email']);
             $password = $data['password'];
         
             $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
@@ -56,12 +46,13 @@
         }
     } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
         $bearer_token = get_bearer_token();
+        echo(json_decode(($bearer_token)));
+        die();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
-
 
         if ($is_jwt_valid) {
             $email = getPayload($bearer_token);
-            $email_hash = base64_encode($email);
+            $email_hash = xorEncrypt($email);
 
             $sql = "SELECT * FROM requests WHERE username = '$email_hash'";
             $query = $connection->prepare($sql);
