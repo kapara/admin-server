@@ -115,7 +115,7 @@
                 $payload = ['user' => $user];
                 $jwt = generate_jwt($headers, $payload);
 
-                echo createResponse('success', 'Logged in successfully.', ['status' => $jwt]);
+                echo createResponse('success', 'Logged in successfully.', ['token' => $jwt]);
             }
             
             else {
