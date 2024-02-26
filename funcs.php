@@ -27,6 +27,6 @@
 
     //Encrypt
     function xorEncrypt($input) {
-        return base64_encode($input);
+      return base64_encode($input);
     }
   ?>

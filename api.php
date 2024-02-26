@@ -18,7 +18,7 @@
                 exit;
             }
 
-            $email_hash = xorEncrypt($data['email']);
+            $email_hash = base64_encode($data['email']);
             $password = $data['password'];
         
             $sql = "SELECT * FROM requests WHERE email = '$email_hash'";
@@ -50,7 +50,7 @@
 
         if ($is_jwt_valid) {
             $email = getPayload($bearer_token);
-            $email_hash = xorEncrypt($email);
+            $email_hash = base64_encode($email);
 
             $sql = "SELECT * FROM requests WHERE username = '$email_hash'";
             $query = $connection->prepare($sql);
