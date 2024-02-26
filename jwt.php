@@ -1,9 +1,7 @@
 <?php
   function generate_jwt($headers, $payload, $secret = 'secret') {
       $headers_encoded = base64url_encode(json_encode($headers));
-
       $payload_encoded = base64url_encode(json_encode($payload));
-
       $signature = hash_hmac(
           'SHA256',
           "$headers_encoded.$payload_encoded",
@@ -11,9 +9,7 @@
           true
       );
       $signature_encoded = base64url_encode($signature);
-
       $jwt = "$headers_encoded.$payload_encoded.$signature_encoded";
-
       return $jwt;
   }
 
@@ -23,11 +19,8 @@
   }
 
   function getPayload($token){
-
       $_token=explode(".",$token);
-
       $payload=json_decode(base64UrlDecode($_token[1]));
-
       return $payload;
   }
 

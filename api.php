@@ -44,9 +44,7 @@
                 $jwt = generate_jwt($headers, $payload);
 
                 echo createResponse('success', 'Logged in successfully.', ['token' => $jwt]);
-            }
-            
-            else {
+            } else {
                 echo createResponse('error', "Incorrect login information.", []);
                 exit;
             }
@@ -63,6 +61,7 @@
 
         if ($is_jwt_valid) {
             $username = getPayload($bearer_token)->user->username;
+            echo ($username);die();
 
             $sql = "SELECT * FROM requests WHERE username = '$username'";
             $query = $connection->prepare($sql);
