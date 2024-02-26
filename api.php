@@ -61,7 +61,7 @@
                 'username' => $row['username'],
             );
 
-            print_r($user);
+            var_dump($user);
             die();
             if ($user) {
                 echo createResponse('success', 'Logged in successfully.', ['user' => $user]);
