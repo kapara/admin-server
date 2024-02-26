@@ -7,8 +7,8 @@
     $row = $query->fetch(PDO::FETCH_ASSOC);
 
     $user = Array(
-        'email' => $row->email,
-        'username' => $row->username,
+        'email' => $row["email"],
+        'username' => $row["username"],
     );
     
     return $user;
