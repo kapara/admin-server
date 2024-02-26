@@ -56,14 +56,15 @@
         }
     } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
         $bearer_token = get_bearer_token();
+        echo(json_decode($bearer_token));die();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
 
 
         if ($is_jwt_valid) {
-            $username = getPayload($bearer_token);
-            echo(json_encode($username));die();
+            $email = getPayload($bearer_token);
+            $email_hash = base64_encode($email);
 
-            $sql = "SELECT * FROM requests WHERE username = '$username'";
+            $sql = "SELECT * FROM requests WHERE username = '$email_hash'";
             $query = $connection->prepare($sql);
             $query->execute();
             $row = $query->fetch(PDO::FETCH_ASSOC);
