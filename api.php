@@ -56,7 +56,6 @@
         }
     } else if($_SERVER['REQUEST_METHOD'] == 'GET') {
         $bearer_token = get_bearer_token();
-        echo(json_decode($bearer_token));die();
         $is_jwt_valid = isset($bearer_token) ? is_jwt_valid($bearer_token) : false;
 
 

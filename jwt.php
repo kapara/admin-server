@@ -85,6 +85,8 @@
           }
       }
 
+      echo(json_decode($headers));die();
+
       return $headers;
   }
 
