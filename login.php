@@ -109,8 +109,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $query->fetch(PDO::FETCH_ASSOC);
         
         $password_hash = $row['password'];
-        echo createResponse('success', 'Logged in successfully.', ['password' => $password_hash]);
-        die();
 
         if(password_verify($password, $password_hash)) {
             session_start();
@@ -120,8 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         else {
-            echo createResponse('success', 'Logged in successfully.', ['password' => $password_hash]);
-            // echo createResponse('error', "Incorrect login information.", []);
+            echo createResponse('error', "Incorrect login information.", []);
             exit;
         }
     } 
