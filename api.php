@@ -60,7 +60,7 @@
 
 
         if ($is_jwt_valid) {
-            $username = getPayload($bearer_token)->user->username;
+            $username = getPayload($bearer_token)->user;
             echo ($username);die();
 
             $sql = "SELECT * FROM requests WHERE username = '$username'";
