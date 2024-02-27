@@ -4,7 +4,7 @@
       $response = [
           'status' => $status,
           'message' => $message,
-          'data' => $data
+          $data
       ];
       
       return json_encode($response);
