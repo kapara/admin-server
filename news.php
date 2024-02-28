@@ -2,15 +2,14 @@
     require_once './debug.php';
     require_once './config.php';
     require_once './db.php';
-    require_once './sql.php';
     require_once './funcs.php';
+    require_once './sql.php';
 
     $sql = new SQL();
     $funcs = new Funcs();
 
     $method = $_SERVER['REQUEST_METHOD'];
-    echo $funcs->createResponse('error', 'Debug', ['method' => $method]);
-    die();
+    var_dump($method);die();
 
     switch($method) {
         case 'POST':
@@ -22,7 +21,6 @@
           
           if ($news) {
             echo $funcs->createResponse('success', 'Response', ['news' => $news]);
-            exit;
           } else {
             echo $funcs->createResponse('error', 'Wrong GET request.', []);
             exit;
