@@ -1,6 +1,7 @@
 <?php
+  class Funcs {
     //Output values
-    function createResponse($status, $message, $data = []) {
+    public function createResponse($status, $message, $data = []) {
       $response = [
           'status' => $status,
           'message' => $message,
@@ -10,7 +11,7 @@
       return json_encode($response);
     }
 
-    function validateInput($input) {
+    public function validateInput($input) {
       //SQL Injection protection
       if(preg_match('/<script\b[^>]*>(.*?)<\/script>/is', $input)) {
           return false;
@@ -25,7 +26,8 @@
     }
 
     //Encrypt
-    function xorEncrypt($input) {
+    public function xorEncrypt($input) {
       return base64_encode($input);
     }
-  ?>
+  }    
+?>

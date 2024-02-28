@@ -1,5 +1,4 @@
-<?php
-
+<?php  
     $config = array(
         'db_hostname' => 'localhost',
         'db_name' => 'm120341_admin',
@@ -19,5 +18,4 @@
     catch(PDOException $e) {
         die("Connection failed: " . $e->getMessage());
     }
-
 ?>
