@@ -9,6 +9,8 @@
     $funcs = new Funcs();
 
     $method = $_SERVER['REQUEST_METHOD'];
+    echo $funcs->createResponse('error', 'Debug', ['method' => $method]);
+    die();
 
     switch($method) {
         case 'POST':
@@ -16,10 +18,11 @@
           exit;
         break;
         case 'GET':
-          // $news = $sql->getNews();
+          $news = $sql->getNews();
           
           if ($news) {
             echo $funcs->createResponse('success', 'Response', ['news' => $news]);
+            exit;
           } else {
             echo $funcs->createResponse('error', 'Wrong GET request.', []);
             exit;
