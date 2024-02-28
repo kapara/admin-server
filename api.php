@@ -51,26 +51,42 @@
         break;
         case 'GET':
             $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $query_str = parse_url($url, PHP_URL_QUERY);
-            // $res = parse_str($query_str, $query_params);
+            $query = parse_url($url, PHP_URL_QUERY);
 
-            echo var_dump($query_str);die();
-
-            $bearer_token = $jwt->get_bearer_token();
-            $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
-    
-            if ($is_jwt_valid) {
-                $username = $jwt->getPayload($bearer_token);
-    
-                // echo createResponse('debug', 'response', ['username' => $username]);
-    
-                $user = $sql->getUserByUsername($username->user);
-                if ($user) {
-                    echo $funcs->createResponse('success', 'Logged in successfully.', ['user' => $user]);
+            if (!empty($query)) {
+                switch ($query) {
+                    case 'user':
+                        $bearer_token = $jwt->get_bearer_token();
+                        $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
+                
+                        if ($is_jwt_valid) {
+                            $username = $jwt->getPayload($bearer_token);
+                
+                            // echo createResponse('debug', 'response', ['username' => $username]);
+                
+                            $user = $sql->getUserByUsername($username->user);
+                            if ($user) {
+                                echo $funcs->createResponse('success', 'Logged in successfully.', ['user' => $user]);
+                            }
+                        } else {
+                            echo $funcs->createResponse('error', 'Wrong GET request.', []);
+                            exit;
+                        }
+                    break;
+                    case 'news': 
+                        $news = $sql->getNews();
+          
+                        if ($news) {
+                          echo $funcs->createResponse('success', 'Response', ['news' => $news]);
+                        } else {
+                          echo $funcs->createResponse('error', 'Wrong GET request.', []);
+                          exit;
+                        }
+                    break;
+                    default:
+                        echo $funcs->createResponse('error', 'Global wrong GET request.', []);
+                        exit;
                 }
-            } else {
-                echo $funcs->createResponse('error', 'Wrong GET request.', []);
-                exit;
             }
         break;
         default:
