@@ -68,7 +68,7 @@
             }
         break;
         default:
-            echo $funcs->createResponse('error', 'Wrong GET request.', []);
+            echo $funcs->createResponse('error', 'Global wrong GET request.', []);
             exit;
     }
 ?>
