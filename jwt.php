@@ -29,7 +29,7 @@
             return base64_decode(strtr($base64Url, '-_', '+/'));
         }
 
-        public function is_jwt_valid($jwt, $secret = 'secret'){
+        public function is_jwt_valid($jwt, $secret = 'albit'){
             // split the jwt
             $tokenParts = explode('.', $jwt);
             $header = base64_decode($tokenParts[0]);
