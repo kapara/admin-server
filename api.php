@@ -51,10 +51,10 @@
         break;
         case 'GET':
             $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $query_str = parse_url($url, PHP_URL_QUERY);
-            $res = parse_str($query_str, $query_params);
+            // $query_str = parse_url($url, PHP_URL_QUERY);
+            // $res = parse_str($query_str, $query_params);
 
-            echo var_dump($res);die();
+            echo var_dump($url);die();
 
             $bearer_token = $jwt->get_bearer_token();
             $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
