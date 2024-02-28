@@ -16,7 +16,7 @@
           exit;
         break;
         case 'GET':
-          $news = $sql->getNews();
+          // $news = $sql->getNews();
           
           if ($news) {
             echo $funcs->createResponse('success', 'Response', ['news' => $news]);
