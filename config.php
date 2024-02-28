@@ -1,6 +1,6 @@
 <?php
   header('Access-Control-Allow-Origin: *');
-  header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  header('Access-Control-Allow-Headers: Overwrite, Destination, Depth, User-Agent, X-File-Size, If-Modified-Since, X-File-Name, Cache-Control, Origin, Content-Type, Content-Length, Authorization, X-Custom-Header, X-Requested-With, X-Auth-Token, Accept, Key, api-csrf');
   header("Content-Type: application/json; charset=UTF-8");
 
   if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
