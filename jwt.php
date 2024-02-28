@@ -1,5 +1,5 @@
 <?php
-  function generate_jwt($headers, $payload, $secret = 'secret') {
+  function generate_jwt($headers, $payload, $secret = 'albit') {
       $headers_encoded = base64url_encode(json_encode($headers));
       $payload_encoded = base64url_encode(json_encode($payload));
       $signature = hash_hmac(
@@ -14,7 +14,7 @@
   }
 
   function getSigniture($token){
-      $_token = explode(".",$token);
+      $_token = explode(".", $token);
       return $_token[2];
   }
 
