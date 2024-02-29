@@ -33,8 +33,13 @@
                 $password_hash = $user['password'];
     
                 if(password_verify($password, $password_hash)) {
+                    $issuedAt = time();
+                    $expirationTime = $issuedAt + 60;
                     $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
-                    $payload = ['user' => $user['username']];
+                    $payload = [
+                        'user' => $user['username'],
+                        'exp' => $expirationTime,
+                    ];
                     $token = $jwt->generate_jwt($headers, $payload);
     
                     echo $funcs->createResponse('success', 'Logged in successfully.', ['token' => $token]);
