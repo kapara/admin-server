@@ -58,6 +58,8 @@
                 $page = isset($pieces[0]) ? $pieces[0] : null;
                 $id = isset($pieces[1]) ? explode("id=", $pieces[1]) : [];
 
+                var_dump($id);die();
+                
                 if (!is_null($page)) {
                     switch ($page) {
                         case 'user':
