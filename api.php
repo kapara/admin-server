@@ -56,7 +56,7 @@
 
             if (count($pieces) > 0) {          
                 $page = isset($pieces[0]) ? $pieces[0] : null;
-                $id = isset($pieces[1]) ? explode("id=", $pieces[1]) : null;
+                $id = isset($pieces[1]) ? explode("id=", $pieces[1]) : [];
 
                 if (!is_null($page)) {
                     switch ($page) {
@@ -77,7 +77,7 @@
                             }
                         break;
                         case 'news':
-                            if (!is_null($$id)) {
+                            if (count($id) > 0) {
                                 $news = $sql->getNewById($id[0]);
                                 echo $funcs->createResponse('success', 'Response', ['news' => $news]);
                             } else {
