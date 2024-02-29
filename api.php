@@ -57,9 +57,6 @@
             $page = isset($pieces[0]) ? $pieces[0] : null;
             $param = isset($pieces[1]) ? $pieces[1] : null;
 
-            var_dump($page, $param);
-            die();
-
             if (!is_null($page)) {
                 switch ($query[0]) {
                     case 'user':
