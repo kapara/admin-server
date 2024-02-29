@@ -50,11 +50,13 @@
             }
         break;
         case 'GET':
-            $query = $funcs->parseUrlQuery();
+            $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $query = parse_str($url, $query);
+            
             $page = isset($query[0]) ? $query[0] : null; // destination
             $param = isset($query[1]) ? $query[1] : null; // param
 
-            var_dump($query);
+            var_dump($url, $query);
             die();
 
             if (!is_null($page)) {
