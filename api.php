@@ -53,46 +53,46 @@
             $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $query = parse_url($url, PHP_URL_QUERY);
 
-            $pieces = explode("&", $query);            
-            $page = isset($pieces[0]) ? $pieces[0] : null;
-            $param = isset($pieces[1]) ? $pieces[1] : null;
+            if (count($pieces) > 0) {
+                $pieces = explode("&", $query);            
+                $page = isset($pieces[0]) ? $pieces[0] : null;
+                $param = isset($pieces[1]) ? $pieces[1] : null;
 
-            if (!is_null($page)) {
-                switch ($query[0]) {
-                    case 'user':
-                        $bearer_token = $jwt->get_bearer_token();
-                        $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
-                
-                        if ($is_jwt_valid) {
-                            $username = $jwt->getPayload($bearer_token);                                
-                            $user = $sql->getUserByUsername($username->user);
-                            
-                            if ($user) {
-                                echo $funcs->createResponse('success', 'Logged in successfully.', ['user' => $user]);
+                if (!is_null($page)) {
+                    switch ($page) {
+                        case 'user':
+                            $bearer_token = $jwt->get_bearer_token();
+                            $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
+                    
+                            if ($is_jwt_valid) {
+                                $username = $jwt->getPayload($bearer_token);                                
+                                $user = $sql->getUserByUsername($username->user);
+                                
+                                if ($user) {
+                                    echo $funcs->createResponse('success', 'Logged in successfully.', ['user' => $user]);
+                                }
+                            } else {
+                                echo $funcs->createResponse('error', 'Wrong GET request.', []);
+                                exit;
                             }
-                        } else {
-                            echo $funcs->createResponse('error', 'Wrong GET request.', []);
-                            exit;
-                        }
-                    break;
-                    case 'news':
-                        if ($news) {
+                        break;
+                        case 'news':
                             if (!is_null($param)) {
                                 $new = $sql->getNewById($param);
                                 echo $funcs->createResponse('success', 'Response', ['new' => $new]);
                             } else {
                                 $news = $sql->getNews();
                                 echo $funcs->createResponse('success', 'Response', ['news' => $news]);
-                            }                         
-                        } else {
-                          echo $funcs->createResponse('error', 'Wrong GET request.', []);
-                          exit;
-                        }
-                    break;
-                    default:
-                        echo $funcs->createResponse('error', 'Global wrong GET request.', []);
-                        exit;
+                            }
+                        break;
+                        default:
+                            echo $funcs->createResponse('error', 'Global wrong GET request.', []);
+                            exit;
+                    }
                 }
+            } else {
+                echo $funcs->createResponse('error', 'Global wrong GET request.', []);
+                exit;
             }
         break;
         default:
