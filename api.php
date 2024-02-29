@@ -52,9 +52,9 @@
         case 'GET':
             $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $query = parse_url($url, PHP_URL_QUERY);
+            $pieces = explode("&", $query);
 
-            if (count($pieces) > 0) {
-                $pieces = explode("&", $query);            
+            if (count($pieces) > 0) {          
                 $page = isset($pieces[0]) ? $pieces[0] : null;
                 $param = isset($pieces[1]) ? $pieces[1] : null;
 
