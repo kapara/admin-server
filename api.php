@@ -79,7 +79,7 @@
                         case 'news':
                             if (!is_null($param)) {
                                 $new = $sql->getNewById($param);
-                                echo $funcs->createResponse('success', 'Response', ['new' => $new]);
+                                echo $funcs->createResponse('success', 'Response', ['news' => $new]);
                             } else {
                                 $news = $sql->getNews();
                                 echo $funcs->createResponse('success', 'Response', ['news' => $news]);
