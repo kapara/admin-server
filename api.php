@@ -54,7 +54,7 @@
             $page = isset($query[0]) ? $query[0] : null; // destination
             $param = isset($query[1]) ? $query[1] : null; // param
 
-            var_dump($page, $param);
+            var_dump($query);
             die();
 
             if (!is_null($page)) {
