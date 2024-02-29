@@ -32,11 +32,11 @@
       return $rows;
     }
 
-    public function getNewById($param) {
+    public function getNewById($id) {
       global $connection;
       $sql = "SELECT * FROM news WHERE id = :id";
       $query = $connection->prepare($sql);
-      $query->bindParam('id', $param, PDO::PARAM_INT);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
       $query->execute();
       $row = $query->fetch(PDO::FETCH_ASSOC);
       
