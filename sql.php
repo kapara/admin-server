@@ -29,5 +29,15 @@
       
       return $rows;
     }
+
+    public function getNewById($param) {
+      global $connection;
+      $sql = "SELECT * FROM news WHERE id = '$param'";
+      $query = $connection->prepare($sql);
+      $query->execute();
+      $row = $query->fetch(PDO::FETCH_ASSOC);
+      
+      return $row;
+    }
   }
 ?>

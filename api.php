@@ -50,21 +50,20 @@
             }
         break;
         case 'GET':
-            $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $query = parse_url($url, PHP_URL_QUERY);
+           $query = $funcs->parseUrlQuery();
+           $page = isset($query[0]) ? $query[0] : null; // destination
+           $param = isset($query[1]) ? $query[1] : null; // param
 
-            if (!empty($query)) {
-                switch ($query) {
+            if (!is_null($page)) {
+                switch ($query[0]) {
                     case 'user':
                         $bearer_token = $jwt->get_bearer_token();
                         $is_jwt_valid = isset($bearer_token) ? $jwt->is_jwt_valid($bearer_token) : false;
                 
                         if ($is_jwt_valid) {
-                            $username = $jwt->getPayload($bearer_token);
-                
-                            // echo createResponse('debug', 'response', ['username' => $username]);
-                
+                            $username = $jwt->getPayload($bearer_token);                                
                             $user = $sql->getUserByUsername($username->user);
+                            
                             if ($user) {
                                 echo $funcs->createResponse('success', 'Logged in successfully.', ['user' => $user]);
                             }
@@ -73,11 +72,15 @@
                             exit;
                         }
                     break;
-                    case 'news': 
-                        $news = $sql->getNews();
-          
+                    case 'news':
                         if ($news) {
-                          echo $funcs->createResponse('success', 'Response', ['news' => $news]);
+                            if (!is_null($param)) {
+                                $new = $sql->getNewById($param);
+                                echo $funcs->createResponse('success', 'Response', ['new' => $new]);
+                            } else {
+                                $news = $sql->getNews();
+                                echo $funcs->createResponse('success', 'Response', ['news' => $news]);
+                            }                         
                         } else {
                           echo $funcs->createResponse('error', 'Wrong GET request.', []);
                           exit;

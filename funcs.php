@@ -29,5 +29,13 @@
     public function xorEncrypt($input) {
       return base64_encode($input);
     }
+
+    public function parseUrlQuery() {
+      $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      // $query = parse_str($url, PHP_URL_QUERY);
+      return parse_str($url, $query);
+      
+      return $query;
+    }
   }    
 ?>
