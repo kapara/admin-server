@@ -58,6 +58,8 @@
                 $page = isset($pieces[0]) ? $pieces[0] : null;
                 $param = isset($pieces[1]) ? substr_replace('id=', '', $pieces[1]) : null;
 
+                var_dump($param);die();
+
                 if (!is_null($page)) {
                     switch ($page) {
                         case 'user':
