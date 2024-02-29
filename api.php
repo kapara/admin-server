@@ -78,7 +78,7 @@
                         break;
                         case 'news':
                             if (!is_null($$id)) {
-                                $news = $sql->getNewById($id);
+                                $news = $sql->getNewById($id[0]);
                                 echo $funcs->createResponse('success', 'Response', ['news' => $news]);
                             } else {
                                 $news = $sql->getNews();
