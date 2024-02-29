@@ -51,12 +51,11 @@
         break;
         case 'GET':
             $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            $query = parse_url($url);
+            $query = parse_url($url, PHP_URL_QUERY);
             
-            $page = isset($query[0]) ? $query[0] : null; // destination
-            $param = isset($query[1]) ? $query[1] : null; // param
+            $page = isset($query) ? $query : null;
 
-            var_dump($url, $query);
+            var_dump($page, $query);
             die();
 
             if (!is_null($page)) {
