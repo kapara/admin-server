@@ -33,13 +33,8 @@
                 $password_hash = $user['password'];
     
                 if(password_verify($password, $password_hash)) {
-                    $issuedAt = time();
-                    $expirationTime = $issuedAt + 60;
                     $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
-                    $payload = [
-                        'user' => $user['username'],
-                        'exp' => $expirationTime,
-                    ];
+                    $payload = ['user' => $user['username']];
                     $token = $jwt->generate_jwt($headers, $payload);
     
                     echo $funcs->createResponse('success', 'Logged in successfully.', ['token' => $token]);
@@ -55,9 +50,12 @@
             }
         break;
         case 'GET':
-           $query = $funcs->parseUrlQuery();
-           $page = isset($query[0]) ? $query[0] : null; // destination
-           $param = isset($query[1]) ? $query[1] : null; // param
+            $query = $funcs->parseUrlQuery();
+            $page = isset($query[0]) ? $query[0] : null; // destination
+            $param = isset($query[1]) ? $query[1] : null; // param
+
+            var_dump($page, $param);
+            die();
 
             if (!is_null($page)) {
                 switch ($query[0]) {
