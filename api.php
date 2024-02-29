@@ -56,7 +56,7 @@
 
             if (count($pieces) > 0) {          
                 $page = isset($pieces[0]) ? $pieces[0] : null;
-                $param = isset($pieces[1]) ? $pieces[1] : null;
+                $param = isset($pieces[1]) ? substr_replace('id=', '', $pieces[1]) : null;
 
                 if (!is_null($page)) {
                     switch ($page) {
