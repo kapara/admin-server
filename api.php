@@ -24,6 +24,18 @@
         }
         
         switch($page) {
+            case 'deleteNews':
+                $id = isset($data['id']) ? $data['id'] : '';
+
+                if (!empty($id)) {
+                    $new = $sql->deleteSingleNews($id);
+                    echo $funcs->createResponse('success', 'News #'.$id.' was deleted');
+                    exit;
+                }
+
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                exit;
+            break;
             case 'updateNews':    
                 $id = isset($data['id']) ? $data['id'] : '';
                 $title = isset($data['title']) ? $data['title'] : '';

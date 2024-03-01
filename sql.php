@@ -61,5 +61,13 @@
       
       return $row;
     }
+
+    public function deleteSingleNews($id) {
+      global $connection;
+      $sql = "DELETE FROM news WHERE id = :id";
+      $query = $connection->prepare($sql);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->execute();
+    }
   }
 ?>
