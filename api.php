@@ -44,7 +44,7 @@
 
                 if (!empty($title) || !empty($content)) {
                     $new = $sql->setSingleNews($title, $content);
-                    echo $funcs->createResponse('success', 'News #'.$id.' was created');
+                    echo $funcs->createResponse('success', 'News was created');
                     exit;
                 }
 
