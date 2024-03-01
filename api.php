@@ -42,7 +42,7 @@
                 $title = isset($data['title']) ? $data['title'] : '';
                 $content = isset($data['content']) ? $data['content'] : '';
 
-                if (!empty($id)) {
+                if (!empty($title) || !empty($content)) {
                     $new = $sql->setSingleNews($title, $content);
                     echo $funcs->createResponse('success', 'News #'.$id.' was created');
                     exit;
@@ -55,7 +55,7 @@
                 $email = isset($data['email']) ? $data['email'] : '';
                 $password = isset($data['password']) ? $data['password'] : '';
     
-                if (!$data || empty($data['email']) || empty($data['password'])) {
+                if (empty($data['email']) || empty($data['password'])) {
                     echo $funcs->createResponse('error', 'Missing required fields.', []);
                     exit;
                 }
