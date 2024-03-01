@@ -32,6 +32,25 @@
       return $rows;
     }
 
+    public function setSingleNews($title, $content) {
+      global $connection;
+      $sql = "INSERT INTO news (title, content) VALUES (:title, :content)";
+      $query= $connection->prepare($sql);
+      $query->bindParam('title', $title, PDO::PARAM_STR);
+      $query->bindParam('content', $content, PDO::PARAM_STR);
+      $query->execute();
+    }
+
+    public function updateSingleNews($id, $title, $content) {
+      global $connection;
+      $sql = "UPDATE users SET title = :title, content =: content WHERE id = :id";
+      $query= $connection->prepare($sql);
+      $query->bindParam('title', $title, PDO::PARAM_STR);
+      $query->bindParam('content', $content, PDO::PARAM_STR);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->execute();
+    }
+
     public function getNewById($id) {
       global $connection;
       $sql = "SELECT * FROM news WHERE id = :id";

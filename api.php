@@ -14,43 +14,82 @@
 
     if($method == 'POST') {
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $query = parse_url($url, PHP_URL_QUERY);
-
-        var_dump($query);die();
-
-        $data = json_decode(file_get_contents('php://input'), true);
+        $page = parse_url($url, PHP_URL_QUERY);
         
-        if($data) {
-            $email = isset($data['email']) ? $data['email'] : '';
-            $password = isset($data['password']) ? $data['password'] : '';
+        switch($page) {
+            case 'updateNews':
+                $data = json_decode(file_get_contents('php://input'), true);
+                
+                if($data) {
+                    $id = isset($data['id']) ? $data['id'] : '';
+                    $title = isset($data['title']) ? $data['title'] : '';
+                    $content = isset($data['content']) ? $data['content'] : '';
 
-            if (!$data || empty($data['email']) || empty($data['password'])) {
-                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                    if (!empty($id)) {
+                        $new = $sql->updateSingleNews($id, $title, $content);
+                        echo $funcs->createResponse('success', 'News #'.$id.' was updated');
+                        exit;
+                    }
+
+                    echo $funcs->createResponse('error', 'Missing required fields.', []);
+                    exit;
+                }
+            break;
+            case 'setNews':
+                $data = json_decode(file_get_contents('php://input'), true);
+                
+                if($data) {
+                    $title = isset($data['title']) ? $data['title'] : '';
+                    $content = isset($data['content']) ? $data['content'] : '';
+
+                    if (!empty($id)) {
+                        $new = $sql->setSingleNews($title, $content);
+                        echo $funcs->createResponse('success', 'News #'.$id.' was created');
+                        exit;
+                    }
+
+                    echo $funcs->createResponse('error', 'Missing required fields.', []);
+                    exit;
+                }
+            break;
+            case 'auth':
+                $data = json_decode(file_get_contents('php://input'), true);
+                
+                if($data) {
+                    $email = isset($data['email']) ? $data['email'] : '';
+                    $password = isset($data['password']) ? $data['password'] : '';
+        
+                    if (!$data || empty($data['email']) || empty($data['password'])) {
+                        echo $funcs->createResponse('error', 'Missing required fields.', []);
+                        exit;
+                    }
+        
+                    $email_hash = base64_encode($data['email']);
+                    $password = $data['password'];
+                
+                    $user = $sql->getUserByEmail($email_hash);
+                    
+                    $password_hash = $user['password'];
+        
+                    if(password_verify($password, $password_hash)) {
+                        $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
+                        $payload = ['user' => $user['username']];
+                        $token = $jwt->generate_jwt($headers, $payload);
+        
+                        echo $funcs->createResponse('success', 'Logged in successfully.', ['token' => $token]);
+                    } else {
+                        echo $funcs->createResponse('error', "Incorrect login information.", []);
+                        exit;
+                    }
+                } 
+                else {
+                    echo $funcs->createResponse('error', 'Wrong POST request.', []);
+                    exit;
+                }
+            break;
+            default: 
+                echo $funcs->createResponse('error', 'Wrong POST request.', []);
                 exit;
-            }
-
-            $email_hash = base64_encode($data['email']);
-            $password = $data['password'];
-        
-            $user = $sql->getUserByEmail($email_hash);
-            
-            $password_hash = $user['password'];
-
-            if(password_verify($password, $password_hash)) {
-                $headers = ['alg' => 'HS256', 'typ' => 'JWT'];
-                $payload = ['user' => $user['username']];
-                $token = $jwt->generate_jwt($headers, $payload);
-
-                echo $funcs->createResponse('success', 'Logged in successfully.', ['token' => $token]);
-            } else {
-                echo $funcs->createResponse('error', "Incorrect login information.", []);
-                exit;
-            }
-        } 
-        
-        else {
-            echo $funcs->createResponse('error', 'Wrong POST request.', []);
-            exit;
         }
     } else if ($method == 'GET') {
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
