@@ -52,9 +52,8 @@
             break;
             case 'statusNews':
                 $id = isset($data['id']) ? $data['id'] : '';
-                $status = isset($data['status']) ? $data['status'] : '';
+                $status = isset($data['status']) ? (int)$data['status'] : '';
 
-                var_dump($id, $status);die();
                 if (!empty($id) && !empty($status)) {
                     $new = $sql->statusSingleNews($id, $status);
                     echo $funcs->createResponse('success', 'News #'.$id.' was updated');
