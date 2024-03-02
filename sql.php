@@ -56,7 +56,7 @@
       $sql = "UPDATE news SET status = :status WHERE id = :id";
       $query= $connection->prepare($sql);
       $query->bindParam('id', $id, PDO::PARAM_INT);
-      $query->bindParam('status', $status, PDO::PARAM_STR);
+      $query->bindParam('status', $status, PDO::PARAM_INT);
       $query->execute();
     }
 
