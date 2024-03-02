@@ -54,8 +54,8 @@
                 $id = isset($data['id']) ? $data['id'] : '';
                 $status = isset($data['status']) ? $data['status'] : '';
 
+                var_dump($id, $status);die();
                 if (!empty($id) && !empty($status)) {
-                    var_dump($id, $status);die();
                     $new = $sql->statusSingleNews($id, $status);
                     echo $funcs->createResponse('success', 'News #'.$id.' was updated');
                     exit;
