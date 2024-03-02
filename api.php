@@ -51,7 +51,6 @@
                 exit;
             break;
             case 'statusNews':
-                var_dump($data); die();
                 $id = isset($data['id']) ? $data['id'] : '';
                 $status = isset($data['status']) ? $data['status'] : '';
 
