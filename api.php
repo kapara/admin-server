@@ -55,6 +55,7 @@
                 $status = isset($data['status']) ? $data['status'] : '';
 
                 if (!empty($id) && !empty($status)) {
+                    var_dump($id, $status);die();
                     $new = $sql->statusSingleNews($id, $status);
                     echo $funcs->createResponse('success', 'News #'.$id.' was updated');
                     exit;
@@ -67,7 +68,7 @@
                 $title = isset($data['title']) ? $data['title'] : '';
                 $content = isset($data['content']) ? $data['content'] : '';
 
-                if (!empty($title) || !empty($content)) {
+                if (!empty($title) && !empty($content)) {
                     $new = $sql->setSingleNews($title, $content);
                     echo $funcs->createResponse('success', 'News was created');
                     exit;
