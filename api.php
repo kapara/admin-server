@@ -50,6 +50,19 @@
                 echo $funcs->createResponse('error', 'Missing required fields.', []);
                 exit;
             break;
+            case 'statusNews':
+                $id = isset($data['id']) ? $data['id'] : '';
+                $status = isset($data['status']) ? $data['status'] : '';
+
+                if (!empty($status)) {
+                    $new = $sql->statusSingleNews($id, $status);
+                    echo $funcs->createResponse('success', 'News #'.$id.' was updated');
+                    exit;
+                }
+
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                exit;
+            break;
             case 'createNews':  
                 $title = isset($data['title']) ? $data['title'] : '';
                 $content = isset($data['content']) ? $data['content'] : '';

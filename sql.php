@@ -51,6 +51,15 @@
       $query->execute();
     }
 
+    public function statusSingleNews($id, $status) {
+      global $connection;
+      $sql = "UPDATE news SET status = :status WHERE id = :id";
+      $query= $connection->prepare($sql);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->bindParam('status', $status, PDO::PARAM_STR);
+      $query->execute();
+    }
+
     public function getNewById($id) {
       global $connection;
       $sql = "SELECT * FROM news WHERE id = :id";
