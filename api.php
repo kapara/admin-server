@@ -64,6 +64,10 @@
                 echo $funcs->createResponse('error', 'Missing required fields.', []);
                 exit;
             break;
+            case 'uploadImage':
+                $data = isset($data) ? $data : '';
+                var_dump($data);die();
+            break;
             case 'auth':
                 $email = isset($data['email']) ? $data['email'] : '';
                 $password = isset($data['password']) ? $data['password'] : '';
