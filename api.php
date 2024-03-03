@@ -12,24 +12,17 @@
 
     $method = $_SERVER['REQUEST_METHOD'];
     $upload_directory = './upload/';
+    $root_path = 'https://api.albitmax.cz/api.php?upload/';
 
     if($method == 'POST') {
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $page = parse_url($url, PHP_URL_QUERY);
 
-        var_dump($_FILES);die();
-
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = $_FILES ? $_FILES : json_decode(file_get_contents('php://input'), true);
 
         if(!$data) {
             echo $funcs->createResponse('error', 'Missing required fields.', []);
             exit;
-        } else {
-            $file_name_array = explode(".", $_FILES['file']['name']);
-
-            if (count($file_name_array) != 0) {
-                echo $funcs->createResponse('error', 'Missing required fields.', []);
-            }
         }
         
         switch($page) {
@@ -74,8 +67,23 @@
                 exit;
             break;
             case 'uploadImage':
-                $data = isset($file_name_array) ? $file_name_array : '';
-                var_dump($data);die();
+                $data = isset($data) ? $data : '';
+                $file_name_array = explode(".", $data['file']['name']);
+                $file_name = time() . '.' . end($file_name_array);
+                
+                $upload_file = $upload_directory . $file_name;
+                $image_link = $root_path . $file_name;
+                
+                if(!file_exists($upload_directory)) {
+                    mkdir($upload_directory, 0777, true);
+                }
+                
+                if(move_uploaded_file($data['file']['tmp_name'], $upload_file)) {
+                    echo json_encode([
+                        'message' => 'File uploaded successfully', 
+                        'image_link' => $image_link
+                    ]);
+                }                
             break;
             case 'auth':
                 $email = isset($data['email']) ? $data['email'] : '';
