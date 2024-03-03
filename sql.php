@@ -41,13 +41,14 @@
       $query->execute();
     }
 
-    public function updateSingleNews($id, $title, $content) {
+    public function updateSingleNews($id, $title, $content, $status) {
       global $connection;
-      $sql = "UPDATE news SET title = :title, content = :content WHERE id = :id";
+      $sql = "UPDATE news SET title = :title, content = :content, status = :status WHERE id = :id";
       $query= $connection->prepare($sql);
       $query->bindParam('id', $id, PDO::PARAM_INT);
       $query->bindParam('title', $title, PDO::PARAM_STR);
       $query->bindParam('content', $content, PDO::PARAM_STR);
+      $query->bindParam('status', $status, PDO::PARAM_INT);
       $query->execute();
     }
 

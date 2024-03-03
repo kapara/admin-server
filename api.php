@@ -25,7 +25,7 @@
         
         switch($page) {
             case 'deleteNews':
-                $id = isset($data['id']) ? $data['id'] : '';
+                $id = isset($data['id']) ? (int)$data['id'] : '';
 
                 if (!empty($id)) {
                     $new = $sql->deleteSingleNews($id);
@@ -37,25 +37,13 @@
                 exit;
             break;
             case 'updateNews':    
-                $id = isset($data['id']) ? $data['id'] : '';
+                $id = isset($data['id']) ? (int)$data['id'] : '';
                 $title = isset($data['title']) ? $data['title'] : '';
                 $content = isset($data['content']) ? $data['content'] : '';
+                $status = isset($data['status']) ? (int)$data['status'] : '';
 
                 if (!empty($id)) {
-                    $new = $sql->updateSingleNews($id, $title, $content);
-                    echo $funcs->createResponse('success', 'News #'.$id.' was updated');
-                    exit;
-                }
-
-                echo $funcs->createResponse('error', 'Missing required fields.', []);
-                exit;
-            break;
-            case 'statusNews':
-                $id = isset($data['id']) ? $data['id'] : '';
-                $status = isset($data['status']) ? $data['status'] : '';
-
-                if (!empty($id)) {
-                    $new = $sql->statusSingleNews($id, $status);
+                    $new = $sql->updateSingleNews($id, $title, $content, $status);
                     echo $funcs->createResponse('success', 'News #'.$id.' was updated');
                     exit;
                 }
