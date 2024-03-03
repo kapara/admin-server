@@ -11,6 +11,7 @@
     $jwt = new JWT();
 
     $method = $_SERVER['REQUEST_METHOD'];
+    $upload_directory = './upload/';
 
     if($method == 'POST') {
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -21,6 +22,11 @@
         if(!$data) {
             echo $funcs->createResponse('error', 'Missing required fields.', []);
             exit;
+        } else {
+            $file_name_array = explode(".", $_FILES['file']['name']);
+            if (count($file_name_array) != 0) {
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+            }
         }
         
         switch($page) {
@@ -65,7 +71,7 @@
                 exit;
             break;
             case 'uploadImage':
-                $data = isset($data) ? $data : '';
+                $data = isset($file_name_array) ? $file_name_array : '';
                 var_dump($data);die();
             break;
             case 'auth':
