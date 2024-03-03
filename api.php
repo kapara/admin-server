@@ -70,8 +70,7 @@
                 $data = isset($data) ? $data : '';
 
                 if ($data) {
-                    $file_name_array = explode(".", $data['name']);
-                    $file_name = time() . '.' . end($file_name_array);
+                    $file_name = $data['name'];
                     
                     $upload_file = $upload_directory . $file_name;
                     $image_link = $root_path . $file_name;
