@@ -68,7 +68,7 @@
             break;
             case 'uploadImage':
                 $data = isset($data) ? $data : '';
-
+                var_dump($data);die();
                 if ($data) {
                     $file_name = $data['name'];
                     
