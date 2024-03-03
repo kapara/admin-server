@@ -68,9 +68,9 @@
             break;
             case 'uploadImage':
                 $data = isset($data) ? $data : '';
-                var_dump($data);die();
+
                 if ($data) {
-                    $file_name_array = explode(".", $data['file']['name']);
+                    $file_name_array = explode(".", $data['name']);
                     $file_name = time() . '.' . end($file_name_array);
                     
                     $upload_file = $upload_directory . $file_name;
@@ -80,7 +80,7 @@
                         mkdir($upload_directory, 0777, true);
                     }
                     
-                    if(move_uploaded_file($data['file']['tmp_name'], $upload_file)) {
+                    if(move_uploaded_file($data['tmp_name'], $upload_file)) {
                         echo json_encode([
                             'message' => 'File uploaded successfully', 
                             'image_link' => $image_link
