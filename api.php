@@ -17,6 +17,8 @@
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $page = parse_url($url, PHP_URL_QUERY);
 
+        var_dump($_FILES);die();
+
         $data = json_decode(file_get_contents('php://input'), true);
 
         if(!$data) {
@@ -24,6 +26,7 @@
             exit;
         } else {
             $file_name_array = explode(".", $_FILES['file']['name']);
+
             if (count($file_name_array) != 0) {
                 echo $funcs->createResponse('error', 'Missing required fields.', []);
             }
