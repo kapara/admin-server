@@ -42,7 +42,6 @@
     }
 
     public function updateSingleNews($id, $title, $content, $status) {
-      var_dump($id, $title, $content, $status);die();
       global $connection;
       $sql = "UPDATE news SET title = :title, content = :content, status = :status WHERE id = :id";
       $query= $connection->prepare($sql);
