@@ -68,22 +68,27 @@
             break;
             case 'uploadImage':
                 $data = isset($data) ? $data : '';
-                $file_name_array = explode(".", $data['file']['name']);
-                $file_name = time() . '.' . end($file_name_array);
-                
-                $upload_file = $upload_directory . $file_name;
-                $image_link = $root_path . $file_name;
-                
-                if(!file_exists($upload_directory)) {
-                    mkdir($upload_directory, 0777, true);
+                var_dump($data);die();
+                if ($data) {
+                    $file_name_array = explode(".", $data['file']['name']);
+                    $file_name = time() . '.' . end($file_name_array);
+                    
+                    $upload_file = $upload_directory . $file_name;
+                    $image_link = $root_path . $file_name;
+                    
+                    if(!file_exists($upload_directory)) {
+                        mkdir($upload_directory, 0777, true);
+                    }
+                    
+                    if(move_uploaded_file($data['file']['tmp_name'], $upload_file)) {
+                        echo json_encode([
+                            'message' => 'File uploaded successfully', 
+                            'image_link' => $image_link
+                        ]);
+                    }
+                } else {
+                    echo $funcs->createResponse('error', 'No images to upload.', []);
                 }
-                
-                if(move_uploaded_file($data['file']['tmp_name'], $upload_file)) {
-                    echo json_encode([
-                        'message' => 'File uploaded successfully', 
-                        'image_link' => $image_link
-                    ]);
-                }                
             break;
             case 'auth':
                 $email = isset($data['email']) ? $data['email'] : '';
