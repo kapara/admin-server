@@ -12,7 +12,7 @@
 
     $method = $_SERVER['REQUEST_METHOD'];
     $upload_directory = './upload/';
-    $root_path = 'https://api.albitmax.cz/api.php?upload/';
+    $root_path_img = 'https://api.albitmax.cz/upload/';
 
     if($method == 'POST') {
         $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -73,7 +73,7 @@
                     $file_name = $data['image']['name'];
                     
                     $upload_file = $upload_directory . $file_name;
-                    $image_link = $root_path . $file_name;
+                    $image_link = $root_path_img . $file_name;
                     
                     if(!file_exists($upload_directory)) {
                         mkdir($upload_directory, 0777, true);
