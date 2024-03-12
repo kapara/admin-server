@@ -79,5 +79,17 @@
       $query->bindParam('id', $id, PDO::PARAM_INT);
       $query->execute();
     }
+
+    public function createMsg($fname, $lname, $email, $phone, $msg) {
+      global $connection;
+      $sql = "INSERT INTO msg (fname, lname, email, phone, msg) VALUES (:fname, :lname, :email, :phone, :msg)";
+      $query= $connection->prepare($sql);
+      $query->bindParam('fname', $fname, PDO::PARAM_STR);
+      $query->bindParam('lname', $lname, PDO::PARAM_STR);
+      $query->bindParam('email', $email, PDO::PARAM_STR);
+      $query->bindParam('phone', $phone, PDO::PARAM_STR);
+      $query->bindParam('msg', $msg, PDO::PARAM_STR);
+      $query->execute();
+    }
   }
 ?>

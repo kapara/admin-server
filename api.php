@@ -89,6 +89,22 @@
                     echo $funcs->createResponse('error', 'No images to upload.', []);
                 }
             break;
+            case 'sendForm':
+                $fname = isset($data['fname']) ? $data['fname'] : '';
+                $lname = isset($data['lname']) ? $data['lname'] : '';
+                $email = isset($data['email']) ? $data['email'] : '';
+                $phone = isset($data['phone']) ? $data['phone'] : '';
+                $msg = isset($data['msg']) ? $data['msg'] : '';
+                
+                if (!empty($fname) && !empty($email) && !empty($msg)) {
+                    $new = $sql->createMsg($fname, $lname, $email, $phone, $msg);
+                    echo $funcs->createResponse('success', 'Message was accepted!');
+                    exit;
+                }
+
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                exit;
+            break;
             case 'auth':
                 $email = isset($data['email']) ? $data['email'] : '';
                 $password = isset($data['password']) ? $data['password'] : '';
