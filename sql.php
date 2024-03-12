@@ -91,5 +91,26 @@
       $query->bindParam('msg', $msg, PDO::PARAM_STR);
       $query->execute();
     }
+
+    public function getMsgById($id) {
+      global $connection;
+      $sql = "SELECT * FROM msg WHERE id = :id";
+      $query = $connection->prepare($sql);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->execute();
+      $row = $query->fetch(PDO::FETCH_ASSOC);
+      
+      return $row;
+    }
+
+    public function getMsgs() {
+      global $connection;
+      $sql = "SELECT * FROM msg";
+      $query = $connection->prepare($sql);
+      $query->execute();
+      $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+      
+      return $rows;
+    }
   }
 ?>

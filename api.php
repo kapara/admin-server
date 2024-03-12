@@ -172,6 +172,15 @@
                             echo $funcs->createResponse('success', 'Response', ['news' => $news]);
                         }
                     break;
+                    case 'msg':
+                        if (count($id) > 0) {
+                            $msg = $sql->getMsgById($id[1]);
+                            echo $funcs->createResponse('success', 'Response', ['msg' => $msg]);
+                        } else {
+                            $msg = $sql->getMsgs();
+                            echo $funcs->createResponse('success', 'Response', ['msg' => $msg]);
+                        }
+                    break;
                     default:
                         echo $funcs->createResponse('error', 'Global wrong GET request.', []);
                         exit;
