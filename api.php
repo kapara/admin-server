@@ -117,7 +117,7 @@
                 echo $funcs->createResponse('error', 'Missing required fields.', []);
                 exit;
             break;
-            case 'updateMsgs':    
+            case 'updateMsg':    
                 $id = isset($data['id']) ? (int)$data['id'] : '';
                 $status = isset($data['status']) ? (int)$data['status'] : '';
 
