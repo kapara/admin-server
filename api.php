@@ -20,6 +20,8 @@
 
         $data = $_FILES ? $_FILES : json_decode(file_get_contents('php://input'), true);
 
+        var_dump($data);die();
+        
         if(!$data) {
             echo $funcs->createResponse('error', 'Missing required fields.', []);
             exit;
@@ -95,8 +97,6 @@
                 $email = isset($data['email']) ? $data['email'] : '';
                 $phone = isset($data['phone']) ? $data['phone'] : '';
                 $msg = isset($data['msg']) ? $data['msg'] : '';
-
-                var_dump($data);die();
                 
                 if (!empty($fname) && !empty($email) && !empty($msg)) {
                     $new = $sql->createMsg($fname, $lname, $email, $phone, $msg);
