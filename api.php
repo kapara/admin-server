@@ -19,8 +19,6 @@
         $page = parse_url($url, PHP_URL_QUERY);
 
         $data = $_FILES ? $_FILES : json_decode(file_get_contents('php://input'), true);
-
-        var_dump($data);die();
         
         if(!$data) {
             echo $funcs->createResponse('error', 'Missing required fields.', []);
