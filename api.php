@@ -96,6 +96,8 @@
                 $phone = isset($data['phone']) ? $data['phone'] : '';
                 $msg = isset($data['msg']) ? $data['msg'] : '';
                 
+                var_dump($data);die();
+
                 if (!empty($fname) && !empty($email) && !empty($msg)) {
                     $new = $sql->createMsg($fname, $lname, $email, $phone, $msg);
                     echo $funcs->createResponse('success', 'Message was accepted!');
