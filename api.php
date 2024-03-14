@@ -90,14 +90,12 @@
                 }
             break;
             case 'sendForm':
-                $fname = isset($data['fname']) ? $data['fname'] : '';
-                $lname = isset($data['lname']) ? $data['lname'] : '';
+                $fname = isset($data['fName']) ? $data['fName'] : '';
+                $lname = isset($data['lName']) ? $data['lName'] : '';
                 $email = isset($data['email']) ? $data['email'] : '';
                 $phone = isset($data['phone']) ? $data['phone'] : '';
                 $msg = isset($data['msg']) ? $data['msg'] : '';
                 
-                var_dump($data);die();
-
                 if (!empty($fname) && !empty($email) && !empty($msg)) {
                     $new = $sql->createMsg($fname, $lname, $email, $phone, $msg);
                     echo $funcs->createResponse('success', 'Message was accepted!');
