@@ -105,6 +105,31 @@
                 echo $funcs->createResponse('error', 'Missing required fields.', []);
                 exit;
             break;
+            case 'deleteMsg':
+                $id = isset($data['id']) ? (int)$data['id'] : '';
+
+                if (!empty($id)) {
+                    $new = $sql->deleteSingleMsg($id);
+                    echo $funcs->createResponse('success', 'Message #'.$id.' was deleted');
+                    exit;
+                }
+
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                exit;
+            break;
+            case 'updateMsgs':    
+                $id = isset($data['id']) ? (int)$data['id'] : '';
+                $status = isset($data['status']) ? (int)$data['status'] : '';
+
+                if (!empty($id)) {
+                    $new = $sql->updateSingleMsg($id, $status);
+                    echo $funcs->createResponse('success', 'Message #'.$id.' was updated');
+                    exit;
+                }
+
+                echo $funcs->createResponse('error', 'Missing required fields.', []);
+                exit;
+            break;
             case 'auth':
                 $email = isset($data['email']) ? $data['email'] : '';
                 $password = isset($data['password']) ? $data['password'] : '';

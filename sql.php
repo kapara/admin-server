@@ -112,5 +112,22 @@
       
       return $rows;
     }
+
+    public function deleteSingleMsg($id) {
+      global $connection;
+      $sql = "DELETE FROM msg WHERE id = :id";
+      $query = $connection->prepare($sql);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->execute();
+    }
+
+    public function updateSingleMsg($id, $status) {
+      global $connection;
+      $sql = "UPDATE news SET status = :status WHERE id = :id";
+      $query= $connection->prepare($sql);
+      $query->bindParam('id', $id, PDO::PARAM_INT);
+      $query->bindParam('status', $status, PDO::PARAM_INT);
+      $query->execute();
+    }
   }
 ?>
